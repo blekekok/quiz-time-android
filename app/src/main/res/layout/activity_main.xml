@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
-        android:layout_marginVertical="10dp"
-        android:src="@drawable/ic_launcher_background"/>
+        android:layout_marginVertical="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,17 +38,18 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/searchInput"
+        android:id="@+id/edtSearch"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Search quiz"
         android:inputType="text"
         android:maxLines="1"/>
 
+    <!--
     <ListView
         android:id="@+id/lvQuizList"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingVertical="18dp"/>
+        android:paddingVertical="18dp"/>-->
 
 </LinearLayout>
