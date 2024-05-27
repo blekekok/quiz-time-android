@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView ivLogo;
     private Button btnSignIn, btnSignUp;
     private EditText edtSearch;
-//    private ListView lvQuizList = findViewById(R.id.lvQuizList);
+    private ListView lvQuizList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,15 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Logo
-        ivLogo = findViewById(R.id.ivLogo);
-        ivLogo.setImageResource(R.drawable.ic_launcher_background);
-
         btnSignIn = findViewById(R.id.btnSignIn);
         btnSignUp = findViewById(R.id.btnSignUp);
         edtSearch = findViewById(R.id.edtSearch);
+        lvQuizList = findViewById(R.id.lvQuizList);
 
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.quiz_item_layout, );
+
+
+        // Sign In Button
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Sign Up Button
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,9 +85,3 @@ public class MainActivity extends AppCompatActivity {
      */
     public native String stringFromJNI();
 }
-
-//public class QuizItem {
-//    private String title;
-//    private String description;
-//    private int category;
-//}
