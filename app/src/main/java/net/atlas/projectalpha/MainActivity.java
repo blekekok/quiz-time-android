@@ -14,6 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
+import net.atlas.projectalpha.model.QuizItem;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActivityMainBinding binding;
-    private ImageView ivLogo;
     private Button btnSignIn, btnSignUp;
     private EditText edtSearch;
     private ListView lvQuizList;
@@ -39,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
         edtSearch = findViewById(R.id.edtSearch);
         lvQuizList = findViewById(R.id.lvQuizList);
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.quiz_item_layout, );
-
 
         // Sign In Button
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -65,18 +64,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        // Example of a call to a native method
-//        TextView tv = binding.sampleText;
-//        tv.setText(stringFromJNI());
+        // Quiz Items List View
+        ArrayList<QuizItem> quizList = new ArrayList<>();
+        quizList.add(new QuizItem("Zoology", "Do you know your animals?", "animal", 20));
+        // Add quiz items here
 
-        /*for (int i = 0; i < 5; i++) {
-            View itemView = getLayoutInflater().inflate(R.layout.quiz_item_layout, null);
-
-            TextView quizTitle = itemView.findViewById(R.id.titleText);
-            quizTitle.setText("TEST" + i);
-
-            quizList.addView(itemView);
-        }*/
+        QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
+        lvQuizList.setAdapter(quizAdapter);
     }
 
     /**
