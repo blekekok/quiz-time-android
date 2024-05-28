@@ -24,13 +24,13 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btnSignIn"
+            android:id="@+id/btnMainSignIn"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:text="Sign in"/>
         <Button
-            android:id="@+id/btnSignUp"
+            android:id="@+id/btnMainSignUp"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"

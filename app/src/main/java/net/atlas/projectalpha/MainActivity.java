@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActivityMainBinding binding;
-    private Button btnSignIn, btnSignUp;
+    private Button btnMainSignIn, btnMainSignUp;
     private EditText edtSearch;
     private ListView lvQuizList;
 
@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        btnSignIn = findViewById(R.id.btnSignIn);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        btnMainSignIn = findViewById(R.id.btnMainSignIn);
+        btnMainSignUp = findViewById(R.id.btnMainSignUp);
         edtSearch = findViewById(R.id.edtSearch);
         lvQuizList = findViewById(R.id.lvQuizList);
 
         // Sign In Button
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
+        btnMainSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Sign Up Button
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
+        btnMainSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
