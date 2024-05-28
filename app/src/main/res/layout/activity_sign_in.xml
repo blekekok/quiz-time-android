@@ -1,91 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="12dp"
+    android:paddingHorizontal="40dp"
+    android:orientation="vertical"
     tools:context=".SignInActivity">
-
-    <ImageView
-        android:id="@+id/ivRoundRectangle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/round_rectangle"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <!-- Sign In Title -->
     <TextView
-        android:id="@+id/tvSignIn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign In"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@id/ivRoundRectangle"
-        android:layout_marginTop="180dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:gravity="center"
+        android:layout_marginTop="50dp"/>
 
     <!-- ID -->
     <TextView
-        android:id="@+id/tvSignInId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ID"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="@id/tvSignIn"
-        android:layout_marginTop="40dp"
-        app:layout_constraintLeft_toLeftOf="@+id/ivRoundRectangle"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:id="@+id/edtSignInId"
-        android:layout_width="285dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/tvSignInId"
-        android:layout_marginTop="25dp"
-        app:layout_constraintLeft_toLeftOf="@+id/ivRoundRectangle"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginTop="5dp"/>
 
     <!-- Password -->
     <TextView
-        android:id="@+id/tvSignInPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="@id/edtSignInId"
-        android:layout_marginTop="50dp"
-        app:layout_constraintLeft_toLeftOf="@+id/ivRoundRectangle"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginTop="5dp"/>
 
     <EditText
         android:id="@+id/edtSignInPass"
-        android:layout_width="285dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        app:layout_constraintTop_toTopOf="@id/tvSignInPass"
-        android:layout_marginTop="25dp"
-        app:layout_constraintLeft_toLeftOf="@+id/ivRoundRectangle"
-        android:layout_marginLeft="50dp"/>
+        android:layout_marginTop="5dp"/>
 
     <!-- Button -->
     <Button
         android:id="@+id/btnSignIn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign In"
-        android:background="@color/teal_700"
-        android:foregroundGravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/ivRoundRectangle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="160dp"/>
+        android:layout_marginTop="30dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

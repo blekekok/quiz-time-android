@@ -26,7 +26,7 @@ public class QuizItem {
     }
 
     public String getPlays() {
-        String playsStr = plays + " ";
+        String playsStr = plays + " Plays";
         return playsStr;
     }
 }

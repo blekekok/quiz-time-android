@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         // Quiz Items List View
         ArrayList<QuizItem> quizList = new ArrayList<>();
         quizList.add(new QuizItem("Zoology", "Do you know your animals?", "animal", 20));
+        quizList.add(new QuizItem("Trees", "Happy accidents", "plants", 12));
+        quizList.add(new QuizItem("Floriography", "Language of flowers", "plants", 11));
+        quizList.add(new QuizItem("Ducks", "Free birds", "animal", 99));
         // Add quiz items here
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
