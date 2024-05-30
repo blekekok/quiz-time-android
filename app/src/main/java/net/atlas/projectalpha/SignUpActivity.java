@@ -28,6 +28,8 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sign up logic here
+
                 Intent intent = new Intent();
                 intent.setClass(SignUpActivity.this, MainActivity.class);
 

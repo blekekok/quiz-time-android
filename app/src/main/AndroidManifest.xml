@@ -22,6 +22,9 @@
             android:name=".QuizListAdapterActivity"
             android:exported="false" />
         <activity
+            android:name=".QuizDescActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

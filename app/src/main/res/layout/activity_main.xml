@@ -38,6 +38,7 @@
 
     </LinearLayout>
 
+    <!-- Search -->
     <EditText
         android:id="@+id/edtSearch"
         android:layout_width="match_parent"
@@ -46,6 +47,7 @@
         android:inputType="text"
         android:maxLines="1"/>
 
+    <!-- Quiz List -->
     <ListView
         android:id="@+id/lvQuizList"
         android:layout_width="match_parent"

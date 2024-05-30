@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,14 +67,29 @@ public class MainActivity extends AppCompatActivity {
 
         // Quiz Items List View
         ArrayList<QuizItem> quizList = new ArrayList<>();
-        quizList.add(new QuizItem("Zoology", "Do you know your animals?", "animal", 20));
-        quizList.add(new QuizItem("Trees", "Happy accidents", "plants", 12));
-        quizList.add(new QuizItem("Floriography", "Language of flowers", "plants", 11));
-        quizList.add(new QuizItem("Ducks", "Free birds", "animal", 99));
+        quizList.add(new QuizItem("Zoology", "Do you know your animals?", "animal", 20, 5, R.drawable.quiz_time_logo));
+        quizList.add(new QuizItem("Trees", "We don't make mistakes, we have happy accidents", "plants", 12, 7, R.drawable.quiz_time_logo));
+        quizList.add(new QuizItem("Floriography", "The language of flowers, a cryptological communication through the use or arrangement of flowers", "plants", 8, 1, R.drawable.quiz_time_logo));
+        quizList.add(new QuizItem("Ducks", "Free birds", "animal", 101, 3, R.drawable.quiz_time_logo));
         // Add quiz items here
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
         lvQuizList.setAdapter(quizAdapter);
+
+        // When item is clicked, show QuizDescActivity
+        lvQuizList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, QuizDescActivity.class);
+                intent.putExtra("title", quizList.get(position).getTitle());
+                intent.putExtra("category", quizList.get(position).getCategory());
+                intent.putExtra("description", quizList.get(position).getDescription());
+                intent.putExtra("questions", quizList.get(position).getQuestions());
+                intent.putExtra("image", quizList.get(position).getImage());
+
+                startActivity(intent);
+            }
+        });
     }
 
     /**
