@@ -3,6 +3,7 @@ package net.atlas.projectalpha;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,12 @@ import android.widget.TextView;
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
 import net.atlas.projectalpha.model.QuizItem;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,13 +72,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Quiz Items List View
+        // Add Quiz Items to List View
         ArrayList<QuizItem> quizList = new ArrayList<>();
-        quizList.add(new QuizItem("Zoology", "Do you know your animals?", "animal", 20, 5, R.drawable.quiz_time_logo));
-        quizList.add(new QuizItem("Trees", "We don't make mistakes, we have happy accidents", "plants", 12, 7, R.drawable.quiz_time_logo));
-        quizList.add(new QuizItem("Floriography", "The language of flowers, a cryptological communication through the use or arrangement of flowers", "plants", 8, 1, R.drawable.quiz_time_logo));
-        quizList.add(new QuizItem("Ducks", "Free birds", "animal", 101, 3, R.drawable.quiz_time_logo));
-        // Add quiz items here
+        try {
+            String jsonString = readRawResource(R.raw.questions);
+            JSONArray questionsArr = new JSONArray(jsonString);
+
+            for (int i = 0 ; i < questionsArr.length() ; i++){
+                JSONObject questionObj = questionsArr.getJSONObject(i);
+                quizList.add(new QuizItem(
+                        questionObj.getString("title"),
+                        questionObj.getString("description"),
+                        questionObj.getString("category"),
+                        questionObj.getString("image"),
+                        questionObj.getInt("plays"),
+                        questionObj.getString("questions")));
+            }
+
+        } catch (Exception e) {}
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
         lvQuizList.setAdapter(quizAdapter);
@@ -90,6 +108,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private String readRawResource(int resourceId) {
+        Resources resources = getResources();
+        InputStream inputStream = resources.openRawResource(resourceId);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        int i;
+        try {
+            i = inputStream.read();
+            while (i != -1) {
+                byteArrayOutputStream.write(i);
+                i = inputStream.read();
+            }
+            inputStream.close();
+        } catch (IOException e) {}
+
+        return byteArrayOutputStream.toString();
     }
 
     /**

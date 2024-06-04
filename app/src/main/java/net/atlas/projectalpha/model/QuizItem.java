@@ -1,20 +1,21 @@
 package net.atlas.projectalpha.model;
 
-public class QuizItem {
-    private String title;
-    private String description;
-    private String category;
-    private int plays;
-    private int questions;
-    private int image;
+import java.util.ArrayList;
 
-    public QuizItem(String title, String description, String category, int plays, int questions, int image) {
+public class QuizItem {
+    // Get the questions size/length
+
+    private String title, description, category, image;
+    private int plays;
+    private ArrayList<Question> questions;
+
+    public QuizItem(String title, String description, String category, String image, int plays, String questionsJSON) {
         this.title = title;
         this.description = description;
         this.category = category;
-        this.plays = plays;
-        this.questions = questions;
         this.image = image;
+        this.plays = plays;
+        this.questions = Question.fromJsonArray(questionsJSON);
     }
 
     public String getTitle() {
@@ -29,17 +30,21 @@ public class QuizItem {
         return category;
     }
 
+    public String getImage(){
+        return image;
+    }
+
     public String getPlays() {
         String playsStr = plays + " Plays";
         return playsStr;
     }
 
-    public String getQuestions(){
-        String questionsStr = questions + " questions";
-        return questionsStr;
+    public String getNumOfQuestions(){
+        return questions.size() + " questions";
     }
 
-    public int getImage(){
-        return image;
+    public ArrayList<Question> getQuestions(){
+        return questions;
     }
+
 }

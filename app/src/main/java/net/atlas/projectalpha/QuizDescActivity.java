@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.GenericLifecycleObserver;
+
+import com.bumptech.glide.Glide;
 
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
 
@@ -36,13 +39,24 @@ public class QuizDescActivity extends AppCompatActivity {
         String category = intent.getStringExtra("category");
         String description = intent.getStringExtra("description");
         String questions = intent.getStringExtra("questions");
-        int image = intent.getIntExtra("image", R.drawable.ic_launcher_foreground);
+        String image = intent.getStringExtra("image");
 
         tvDescTitle.setText(title);
         tvDescCategory.setText(category);
         tvDescDesc.setText(description);
         tvDescQuestions.setText(questions);
-        ivDescImage.setImageResource(image);
+        Glide.with(this)
+                .load(image)
+                .placeholder(R.drawable.quiz_time_logo)
+                .error(R.drawable.quiz_time_logo)
+                .into(ivDescImage);
+
+        btnDescPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // To question page
+            }
+        });
     }
 
 }
