@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         questionObj.getString("category"),
                         questionObj.getString("image"),
                         questionObj.getInt("plays"),
-                        questionObj.getString("questions")));
+                        questionObj.getJSONArray("questions").toString()));
             }
 
         } catch (Exception e) {}
@@ -99,11 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, QuizDescActivity.class);
-                intent.putExtra("title", quizList.get(position).getTitle());
-                intent.putExtra("category", quizList.get(position).getCategory());
-                intent.putExtra("description", quizList.get(position).getDescription());
-                intent.putExtra("questions", quizList.get(position).getQuestions());
-                intent.putExtra("image", quizList.get(position).getImage());
+                intent.putExtra("quizItem", quizList.get(position));
 
                 startActivity(intent);
             }

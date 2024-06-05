@@ -16,10 +16,11 @@ import androidx.lifecycle.GenericLifecycleObserver;
 import com.bumptech.glide.Glide;
 
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
+import net.atlas.projectalpha.model.QuizItem;
 
 public class QuizDescActivity extends AppCompatActivity {
-    private TextView tvDescTitle, tvDescCategory, tvDescDesc, tvDescQuestions;
     private ImageView ivDescImage;
+    private TextView tvDescTitle, tvDescDesc, tvDescCategory, tvDescQuestions;
     private Button btnDescPlay;
 
     @Override
@@ -27,34 +28,34 @@ public class QuizDescActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_desc);
 
-        tvDescTitle = findViewById(R.id.tvDescTitle);
-        tvDescCategory = findViewById(R.id.tvDescCategory);
-        tvDescDesc = findViewById(R.id.tvDescDesc);
-        tvDescQuestions = findViewById(R.id.tvDescQuestions);
         ivDescImage = findViewById(R.id.ivDescImage);
+        tvDescTitle = findViewById(R.id.tvDescTitle);
+        tvDescDesc = findViewById(R.id.tvDescDesc);
+        tvDescCategory = findViewById(R.id.tvDescCategory);
+        tvDescQuestions = findViewById(R.id.tvDescQuestions);
 
         // Get Quiz Item
         Intent intent = getIntent();
-        String title = intent.getStringExtra("title");
-        String category = intent.getStringExtra("category");
-        String description = intent.getStringExtra("description");
-        String questions = intent.getStringExtra("questions");
-        String image = intent.getStringExtra("image");
+        QuizItem quizItem = (QuizItem) intent.getSerializableExtra("quizItem");
 
-        tvDescTitle.setText(title);
-        tvDescCategory.setText(category);
-        tvDescDesc.setText(description);
-        tvDescQuestions.setText(questions);
+        tvDescTitle.setText(quizItem.getTitle());
+        tvDescDesc.setText(quizItem.getDescription());
+        tvDescCategory.setText(quizItem.getCategory());
+        tvDescQuestions.setText(quizItem.getNumOfQuestions());
         Glide.with(this)
-                .load(image)
+                .load(quizItem.getImage())
                 .placeholder(R.drawable.quiz_time_logo)
                 .error(R.drawable.quiz_time_logo)
                 .into(ivDescImage);
 
+        // Play button
         btnDescPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // To question page
+                Intent intent = new Intent();
+                intent.setClass(QuizDescActivity.this, PlayActivity.class);
+
+                startActivity(intent);
             }
         });
     }

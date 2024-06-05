@@ -1,10 +1,9 @@
 package net.atlas.projectalpha.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class QuizItem {
-    // Get the questions size/length
-
+public class QuizItem implements Serializable {
     private String title, description, category, image;
     private int plays;
     private ArrayList<Question> questions;
