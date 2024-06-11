@@ -28,7 +28,7 @@
       "title": "Trees",
       "description": "We don't make mistakes, we have happy accidents",
       "category": "plants",
-      "image": "image_url",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/Autumn_trees_in_Dresden.jpg",
       "plays": 7,
       "questions": [
         {
@@ -57,7 +57,7 @@
       "questions": [
         {
           "text": "Which flower symbolizes love?",
-          "image": "(image link)",
+          "image": "https://www.petalrepublic.com/wp-content/uploads/2022/04/Ultimate-Guide-to-Floriography-The-Secret-Language-of-Flowers-1170x751.jpeg",
           "use_image": false,
           "options": [
             {
@@ -66,6 +66,34 @@
             },
             {
               "text": "Tulip",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ducks",
+      "description": "Free birds",
+      "category": "animal",
+      "image": "http://www.publicdomainpictures.net/pictures/40000/velka/white-duck-in-pond.jpg",
+      "plays": 3,
+      "questions": [
+        {
+          "text": "What is a baby duck called?",
+          "image": "(image link)",
+          "use_image": false,
+          "options": [
+            {
+              "text": "Duckling",
+              "isCorrect": true
+            },
+            {
+              "text": "Chick",
+              "isCorrect": false
+            },
+            {
+              "text": "Gosling",
               "isCorrect": false
             }
           ]
