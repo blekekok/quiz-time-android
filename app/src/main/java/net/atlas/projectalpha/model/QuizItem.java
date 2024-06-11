@@ -90,7 +90,11 @@ public class QuizItem implements Parcelable {
     }
 
     public String getNumOfQuestions(){
-        return questions.size() + " questions";
+        if (questions != null){
+            return questions.size() + " questions";
+        } else {
+            return "0 questions";
+        }
     }
 
     public ArrayList<Question> getQuestions(){

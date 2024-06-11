@@ -33,10 +33,11 @@ public class QuizDescActivity extends AppCompatActivity {
         tvDescDesc = findViewById(R.id.tvDescDesc);
         tvDescCategory = findViewById(R.id.tvDescCategory);
         tvDescQuestions = findViewById(R.id.tvDescQuestions);
+        btnDescPlay = findViewById(R.id.btnDescPlay);
 
         // Get Quiz Item
         Intent intent = getIntent();
-        QuizItem quizItem = (QuizItem) intent.getSerializableExtra("quizItem");
+        QuizItem quizItem = (QuizItem) intent.getParcelableExtra("quizItem");
 
         tvDescTitle.setText(quizItem.getTitle());
         tvDescDesc.setText(quizItem.getDescription());
