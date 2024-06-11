@@ -1,34 +1,76 @@
-[
-  {
-    "title": "Zoology",
-    "description": "Do you know your animals?",
-    "category": "animal",
-    "image": "https://images.alphacoders.com/436/436232.jpg",
-    "plays": 5,
-    "questions": "{ \"questions\": [ { \"text\": \"What is the fastest land animal?\", \"image\": \"(image link)\", \"use_image\": false, \"options\": [ { \"text\": \"Cheetah\", \"isCorrect\": true }, { \"text\": \"Lion\", \"isCorrect\": false } ] } ] }"
-  },
-  {
-    "title": "Trees",
-    "description": "We don't make mistakes, we have happy accidents",
-    "category": "plants",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/Autumn_trees_in_Dresden.jpg",
-    "plays": 7,
-    "questions": "{ \"questions\": [ { \"text\": \"What is the tallest type of tree?\", \"image\": \"(image link)\", \"use_image\": false, \"options\": [ { \"text\": \"Redwood\", \"isCorrect\": true }, { \"text\": \"Oak\", \"isCorrect\": false }, { \"text\": \"Pine\", \"isCorrect\": false } ] } ] }"
-  },
-  {
-    "title": "Floriography",
-    "description": "The language of flowers, a cryptological communication through the use or arrangement of flowers",
-    "category": "plants",
-    "image": "https://www.petalrepublic.com/wp-content/uploads/2022/04/Ultimate-Guide-to-Floriography-The-Secret-Language-of-Flowers-1170x751.jpeg",
-    "plays": 1,
-    "questions": "{ \"questions\": [ { \"text\": \"What does a red rose symbolize in floriography?\", \"image\": \"(image link)\", \"use_image\": false, \"options\": [ { \"text\": \"Love\", \"isCorrect\": true }, { \"text\": \"Friendship\", \"isCorrect\": false }, { \"text\": \"Envy\", \"isCorrect\": false }, { \"text\": \"Sorrow\", \"isCorrect\": false } ] } ] }"
-  },
-  {
-    "title": "Ducks",
-    "description": "Free birds",
-    "category": "animal",
-    "image": "http://www.publicdomainpictures.net/pictures/40000/velka/white-duck-in-pond.jpg",
-    "plays": 3,
-    "questions": "{ \"questions\": [ { \"text\": \"What is a baby duck called?\", \"image\": \"(image link)\", \"use_image\": false, \"options\": [ { \"text\": \"Duckling\", \"isCorrect\": true }, { \"text\": \"Chick\", \"isCorrect\": false }, { \"text\": \"Gosling\", \"isCorrect\": false } ] } ] }"
-  }
-]
+{
+  "quiz": [
+    {
+      "title": "Zoology",
+      "description": "Do you know your animals?",
+      "category": "animal",
+      "image": "https://images.alphacoders.com/436/436232.jpg",
+      "plays": 5,
+      "questions": [
+        {
+          "text": "What is the fastest land animal?",
+          "image": "(image link)",
+          "use_image": false,
+          "options": [
+            {
+              "text": "Cheetah",
+              "isCorrect": true
+            },
+            {
+              "text": "Lion",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Trees",
+      "description": "We don't make mistakes, we have happy accidents",
+      "category": "plants",
+      "image": "image_url",
+      "plays": 7,
+      "questions": [
+        {
+          "text": "What is the tallest tree?",
+          "image": "(image link)",
+          "use_image": false,
+          "options": [
+            {
+              "text": "Sequoia",
+              "isCorrect": true
+            },
+            {
+              "text": "Oak",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Floriography",
+      "description": "The language of flowers, a cryptological communication through the use or arrangement of flowers",
+      "category": "plants",
+      "image": "image_url",
+      "plays": 1,
+      "questions": [
+        {
+          "text": "Which flower symbolizes love?",
+          "image": "(image link)",
+          "use_image": false,
+          "options": [
+            {
+              "text": "Rose",
+              "isCorrect": true
+            },
+            {
+              "text": "Tulip",
+              "isCorrect": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

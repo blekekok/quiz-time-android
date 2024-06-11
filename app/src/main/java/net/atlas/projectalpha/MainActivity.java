@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +20,7 @@ import net.atlas.projectalpha.databinding.ActivityMainBinding;
 import net.atlas.projectalpha.model.QuizItem;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         edtSearch = findViewById(R.id.edtSearch);
         lvQuizList = findViewById(R.id.lvQuizList);
 
+        Log.d("START", "creating...");
+
         // Sign In Button
         btnMainSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,20 +80,27 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<QuizItem> quizList = new ArrayList<>();
         try {
             String jsonString = readRawResource(R.raw.questions);
-            JSONArray questionsArr = new JSONArray(jsonString);
+            JSONObject rootObj = new JSONObject(jsonString);
+            JSONArray quizArr = rootObj.getJSONArray("quiz"); // Top-level quiz array
 
-            for (int i = 0 ; i < questionsArr.length() ; i++){
-                JSONObject questionObj = questionsArr.getJSONObject(i);
-                quizList.add(new QuizItem(
-                        questionObj.getString("title"),
-                        questionObj.getString("description"),
-                        questionObj.getString("category"),
-                        questionObj.getString("image"),
-                        questionObj.getInt("plays"),
-                        questionObj.getJSONArray("questions").toString()));
+            for (int i = 0; i < quizArr.length(); i++) {
+                JSONObject quizObj = quizArr.getJSONObject(i);
+
+                // Parse quiz item
+                String title = quizObj.getString("title");
+                String description = quizObj.getString("description");
+                String category = quizObj.getString("category");
+                String image = quizObj.getString("image");
+                int plays = quizObj.getInt("plays");
+                JSONArray questionsArr = quizObj.getJSONArray("questions"); // Nested questions array
+
+                // Add to quiz list
+                quizList.add(new QuizItem(title, description, category, image, plays, questionsArr));
             }
 
-        } catch (Exception e) {}
+        } catch (JSONException e) {
+            Log.e("MainActivity", "Error parsing JSON: " + e.getMessage());
+        }
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
         lvQuizList.setAdapter(quizAdapter);
