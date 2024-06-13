@@ -42,7 +42,7 @@ public class QuizDescActivity extends AppCompatActivity {
         tvDescTitle.setText(quizItem.getTitle());
         tvDescDesc.setText(quizItem.getDescription());
         tvDescCategory.setText(quizItem.getCategory());
-        tvDescQuestions.setText(quizItem.getNumOfQuestions());
+        tvDescQuestions.setText(quizItem.getQuestions().size() + " questions");
         Glide.with(this)
                 .load(quizItem.getImage())
                 .placeholder(R.drawable.quiz_time_logo)
