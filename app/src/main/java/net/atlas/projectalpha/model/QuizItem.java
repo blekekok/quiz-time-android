@@ -16,22 +16,13 @@ public class QuizItem implements Parcelable {
     private int plays;
     private ArrayList<Question> questions;
 
-    public QuizItem(String title, String description, String category, String image, int plays, JSONArray questionsArr) {
+    public QuizItem(String title, String description, String category, String image, int plays) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.image = image;
         this.plays = plays;
         this.questions = new ArrayList<>();
-
-        for (int i = 0; i < questionsArr.length(); i++) {
-            try {
-                JSONObject questionObj = questionsArr.getJSONObject(i);
-                this.questions.add(new Question(questionObj));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     protected QuizItem(Parcel in) {

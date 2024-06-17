@@ -1,7 +1,10 @@
 package net.atlas.projectalpha;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -14,8 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import net.atlas.projectalpha.api.ApiResponse;
+import net.atlas.projectalpha.api.SessionManager;
+import net.atlas.projectalpha.api.model.QuizListAllViewModel;
+import net.atlas.projectalpha.api.model.UserInfoViewModel;
+import net.atlas.projectalpha.api.response.QuizResponse;
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
 import net.atlas.projectalpha.model.QuizItem;
 
@@ -36,9 +45,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ActivityMainBinding binding;
-    private Button btnMainSignIn, btnMainSignUp;
+
+    private Button btnMainSignIn;
+    private Button btnMainSignOut;
+    private TextView usernameText;
     private EditText edtSearch;
     private ListView lvQuizList;
+
+    private SessionManager sessionManager;
+    private UserInfoViewModel userInfoViewModel;
+    private QuizListAllViewModel quizListAllViewModel;
+
+    private ProgressDialog dialog;
+    private int dialogDismiss = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,59 +66,99 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        dialog = new ProgressDialog(this);
+
         btnMainSignIn = findViewById(R.id.btnMainSignIn);
-        btnMainSignUp = findViewById(R.id.btnMainSignUp);
+        btnMainSignOut = findViewById(R.id.btnMainSignOut);
+        usernameText = findViewById(R.id.usernameText);
         edtSearch = findViewById(R.id.edtSearch);
         lvQuizList = findViewById(R.id.lvQuizList);
 
+        sessionManager = new SessionManager(this);
+        userInfoViewModel = new ViewModelProvider(this).get(UserInfoViewModel.class);
+        quizListAllViewModel = new ViewModelProvider(this).get(QuizListAllViewModel.class);
+
         Log.d("START", "creating...");
 
+        fetchUserInfo();
+        fetchQuizList();
+
         // Sign In Button
-        btnMainSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, SignInActivity.class);
+        btnMainSignIn.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, SignInActivity.class);
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
 
-        // Sign Up Button
-        btnMainSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, SignUpActivity.class);
+        btnMainSignOut.setOnClickListener(v -> {
+            sessionManager.logout();
 
-                startActivity(intent);
-            }
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, MainActivity.class);
+            startActivity(intent);
         });
+    }
 
+    private void fetchUserInfo() {
+        showLoadingDialog();
+
+        userInfoViewModel.fetchUserInfo(MainActivity.this);
+
+        userInfoViewModel.getResponse().observe(this, response -> {
+            closeLoadingDialog();
+
+            if (response == null) {
+                showLogin();
+                return;
+            }
+
+            String name = response.getData().getName();
+            usernameText.setText(name);
+
+            showLogout();
+        });
+    }
+
+    private void showLogin() {
+        btnMainSignIn.setVisibility(View.VISIBLE);
+        btnMainSignOut.setVisibility(View.GONE);
+        usernameText.setVisibility(View.GONE);
+    }
+
+    private void showLogout() {
+        btnMainSignIn.setVisibility(View.GONE);
+        btnMainSignOut.setVisibility(View.VISIBLE);
+        usernameText.setVisibility(View.VISIBLE);
+    }
+
+    private void fetchQuizList() {
+        showLoadingDialog();
+
+        quizListAllViewModel.fetch(MainActivity.this);
+
+        quizListAllViewModel.getResponse().observe(this, response -> {
+            if (response == null) {
+                return;
+            }
+
+            loadQuizzes(response.getData());
+
+            closeLoadingDialog();
+        });
+    }
+
+    private void loadQuizzes(QuizResponse[] quizzes) {
         // Add Quiz Items to List View
         ArrayList<QuizItem> quizList = new ArrayList<>();
-        try {
-            String jsonString = readRawResource(R.raw.questions);
-            JSONObject rootObj = new JSONObject(jsonString);
-            JSONArray quizArr = rootObj.getJSONArray("quiz"); // Top-level quiz array
 
-            for (int i = 0; i < quizArr.length(); i++) {
-                JSONObject quizObj = quizArr.getJSONObject(i);
-
-                // Parse quiz item
-                String title = quizObj.getString("title");
-                String description = quizObj.getString("description");
-                String category = quizObj.getString("category");
-                String image = quizObj.getString("image");
-                int plays = quizObj.getInt("plays");
-                JSONArray questionsArr = quizObj.getJSONArray("questions"); // Nested questions array
-
-                // Add to quiz list
-                quizList.add(new QuizItem(title, description, category, image, plays, questionsArr));
-            }
-
-        } catch (JSONException e) {
-            Log.e("MainActivity", "Error parsing JSON: " + e.getMessage());
+        for (QuizResponse quiz : quizzes) {
+            String title = quiz.getTitle();
+            String desc = quiz.getDescription();
+            String category = quiz.getCategory();
+            String image = quiz.getThumbnail();
+            int plays = 0; // Change this later
+            quizList.add(new QuizItem(title, desc, category, image, plays));
         }
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);
@@ -110,11 +169,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, QuizDescActivity.class);
-                intent.putExtra("quizItem", quizList.get(position));
+
+                QuizItem quiz = quizList.get(position);
+                intent.putExtra("quizItem", quiz);
 
                 startActivity(intent);
             }
         });
+    }
+
+    private void showLoadingDialog() {
+        dialogDismiss++;
+
+        if (dialogDismiss > 0) {
+            return;
+        }
+
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    private void closeLoadingDialog() {
+        dialogDismiss = Math.max(--dialogDismiss, 0);
+        if (dialogDismiss == 0) {
+            dialog.dismiss();
+        }
     }
 
     private String readRawResource(int resourceId) {
