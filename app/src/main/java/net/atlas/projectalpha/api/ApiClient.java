@@ -63,7 +63,6 @@ public class ApiClient {
 
                                 if (newAuthCookie == null) {
                                     sessionManager.logout();
-                                    System.out.println("You got logged out");
                                     return response;
                                 }
 

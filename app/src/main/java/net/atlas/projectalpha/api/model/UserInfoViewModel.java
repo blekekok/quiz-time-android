@@ -38,7 +38,6 @@ public class UserInfoViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<ApiResponse<UserInfoResponse>> call, Throwable t) {
-                System.out.println("Failed");
                 res.setValue(null);
             }
         });

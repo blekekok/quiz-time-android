@@ -12,34 +12,39 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class QuizItem implements Parcelable {
-    private String title, description, category, image;
+    private String id, title, description, category, image;
     private int plays;
     private ArrayList<Question> questions;
 
-    public QuizItem(String title, String description, String category, String image, int plays) {
+    public QuizItem(String id, String title, String description, String category, String image, int plays, ArrayList<Question> question) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
         this.image = image;
         this.plays = plays;
-        this.questions = new ArrayList<>();
+        this.questions = question;
     }
 
     protected QuizItem(Parcel in) {
-        title = in.readString();
-        description = in.readString();
-        category = in.readString();
-        image = in.readString();
-        plays = in.readInt();
+        this.id = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.category = in.readString();
+        this.image = in.readString();
+        this.plays = in.readInt();
+        this.questions = in.readArrayList(Question.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(category);
         dest.writeString(image);
         dest.writeInt(plays);
+        dest.writeList(questions);
     }
 
     @Override
@@ -58,6 +63,14 @@ public class QuizItem implements Parcelable {
             return new QuizItem[size];
         }
     };
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -92,4 +105,7 @@ public class QuizItem implements Parcelable {
         return questions;
     }
 
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
 }

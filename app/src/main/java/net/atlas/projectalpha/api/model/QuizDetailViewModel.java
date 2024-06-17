@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import net.atlas.projectalpha.api.ApiClient;
 import net.atlas.projectalpha.api.ApiResponse;
 import net.atlas.projectalpha.api.ApiService;
+import net.atlas.projectalpha.api.response.QuizDetailResponse;
 import net.atlas.projectalpha.api.response.QuizResponse;
 import net.atlas.projectalpha.api.response.UserInfoResponse;
 
@@ -16,19 +17,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuizListAllViewModel extends ViewModel {
-    private MutableLiveData<ApiResponse<QuizResponse[]>> res = new MutableLiveData<>();
+public class QuizDetailViewModel extends ViewModel {
+    private MutableLiveData<ApiResponse<QuizDetailResponse>> res = new MutableLiveData<>();
 
-    public LiveData<ApiResponse<QuizResponse[]>> getResponse() {
+    public LiveData<ApiResponse<QuizDetailResponse>> getResponse() {
         return res;
     }
 
-    public void fetch(Context context) {
+    public void fetch(String id, Context context) {
         ApiService apiService = ApiClient.getClient(context).create(ApiService.class);
-        Call<ApiResponse<QuizResponse[]>> call = apiService.getQuizListAll();
-        call.enqueue(new Callback<ApiResponse<QuizResponse[]>>() {
+        Call<ApiResponse<QuizDetailResponse>> call = apiService.getQuizDetail(id);
+        call.enqueue(new Callback<ApiResponse<QuizDetailResponse>>() {
             @Override
-            public void onResponse(Call<ApiResponse<QuizResponse[]>> call, Response<ApiResponse<QuizResponse[]>> response) {
+            public void onResponse(Call<ApiResponse<QuizDetailResponse>> call, Response<ApiResponse<QuizDetailResponse>> response) {
                 if (!response.isSuccessful()) {
                     res.setValue(null);
                     return;
@@ -38,7 +39,7 @@ public class QuizListAllViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<QuizResponse[]>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<QuizDetailResponse>> call, Throwable t) {
                 res.setValue(null);
             }
         });

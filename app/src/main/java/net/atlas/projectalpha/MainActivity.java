@@ -153,12 +153,13 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<QuizItem> quizList = new ArrayList<>();
 
         for (QuizResponse quiz : quizzes) {
+            String id = quiz.getId();
             String title = quiz.getTitle();
             String desc = quiz.getDescription();
             String category = quiz.getCategory();
             String image = quiz.getThumbnail();
             int plays = 0; // Change this later
-            quizList.add(new QuizItem(title, desc, category, image, plays));
+            quizList.add(new QuizItem(id, title, desc, category, image, plays, null));
         }
 
         QuizListAdapterActivity quizAdapter = new QuizListAdapterActivity(this, R.layout.activity_quiz_list_adapter, quizList);

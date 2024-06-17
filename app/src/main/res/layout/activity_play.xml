@@ -11,77 +11,68 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingHorizontal="12dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="24dp">
 
         <TextView
             android:id="@+id/tvPlayQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_marginVertical="24dp"
+            android:textSize="28sp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:text="Placeholder Question"/>
-
-        <ImageView
-            android:id="@+id/ivPlayImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
         <!-- TEMP -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
             <Button
                 android:id="@+id/btnPlayA"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:padding="1dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:textSize="18sp"
+                android:visibility="invisible"
                 android:text="A"/>
+
             <Button
                 android:id="@+id/btnPlayB"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:padding="1dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:textSize="18sp"
+                android:visibility="invisible"
                 android:text="B"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnPlayC"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:padding="1dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:textSize="18sp"
+                android:visibility="invisible"
                 android:text="C"/>
             <Button
                 android:id="@+id/btnPlayD"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:padding="1dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:textSize="18sp"
+                android:visibility="invisible"
                 android:text="D"/>
         </LinearLayout>
-
-
-        <FrameLayout
-            android:id="@+id/frameOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnPlayNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="NEXT"/>
 
     </LinearLayout>
 
