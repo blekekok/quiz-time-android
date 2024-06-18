@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import java.io.IOException;
-import java.util.HashSet;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -84,7 +83,7 @@ public class ApiClient {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://qt.authenity.net/api/")
+                .baseUrl("http://qt.authenity.net/api/")
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

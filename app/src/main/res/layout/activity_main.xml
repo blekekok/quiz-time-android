@@ -48,13 +48,13 @@
     </LinearLayout>
 
     <!-- Search -->
-    <EditText
-        android:id="@+id/edtSearch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Search quiz"
-        android:inputType="text"
-        android:maxLines="1"/>
+<!--    <EditText-->
+<!--        android:id="@+id/edtSearch"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:hint="Search quiz"-->
+<!--        android:inputType="text"-->
+<!--        android:maxLines="1"/>-->
 
     <!-- Quiz List -->
     <ListView

@@ -1,7 +1,6 @@
 package net.atlas.projectalpha;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
@@ -11,26 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import net.atlas.projectalpha.api.ApiResponse;
 import net.atlas.projectalpha.api.SessionManager;
 import net.atlas.projectalpha.api.model.QuizListAllViewModel;
 import net.atlas.projectalpha.api.model.UserInfoViewModel;
 import net.atlas.projectalpha.api.response.QuizResponse;
 import net.atlas.projectalpha.databinding.ActivityMainBinding;
 import net.atlas.projectalpha.model.QuizItem;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -71,8 +61,10 @@ public class MainActivity extends AppCompatActivity {
         btnMainSignIn = findViewById(R.id.btnMainSignIn);
         btnMainSignOut = findViewById(R.id.btnMainSignOut);
         usernameText = findViewById(R.id.usernameText);
-        edtSearch = findViewById(R.id.edtSearch);
+//        edtSearch = findViewById(R.id.edtSearch);
         lvQuizList = findViewById(R.id.lvQuizList);
+
+        stringFromJNI();
 
         sessionManager = new SessionManager(this);
         userInfoViewModel = new ViewModelProvider(this).get(UserInfoViewModel.class);

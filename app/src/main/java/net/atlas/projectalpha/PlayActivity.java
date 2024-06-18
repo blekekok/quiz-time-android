@@ -29,6 +29,7 @@ public class PlayActivity extends AppCompatActivity {
     private CountDownTimer countdown;
     private final String DEFAULT_COLOR = "#6b82e2";
     private boolean isShowingAnswers = false;
+    private boolean isLEDOn = false;
 
     private QuizItem quizItem;
     private ArrayList<Question> questions;
@@ -48,6 +49,8 @@ public class PlayActivity extends AppCompatActivity {
         btnPlayB = findViewById(R.id.btnPlayB);
         btnPlayC = findViewById(R.id.btnPlayC);
         btnPlayD = findViewById(R.id.btnPlayD);
+
+        setLCD("", "");
 
         setButtonBackgroundColor(DEFAULT_COLOR);
 
@@ -96,7 +99,17 @@ public class PlayActivity extends AppCompatActivity {
         btnPlayC.setVisibility(View.INVISIBLE);
         btnPlayD.setVisibility(View.INVISIBLE);
 
-//        btnPlayA.setBackgroundColor();
+        int totalAnswers = answers.size();
+        int totalQuestions = questions.size();
+        int correctAnswers = 0;
+        for (int i = 0; i < totalAnswers; i++) {
+            if (answers.get(i) == questions.get(i).getCorrectAnswer()) {
+                correctAnswers++;
+            }
+        }
+
+        setLCD(String.format("Question %d", currentQuestion + 1),
+                String.format("Correct %d / %d", correctAnswers, totalQuestions));
 
         int count = options.size();
         if (count >= 1) {
@@ -123,14 +136,14 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void questionCountdown() {
-        int countdownSeconds = 8000;
+        int countdownSeconds = 8;
 
-        this.countdown = new CountDownTimer(countdownSeconds, 1000) {
+        this.countdown = new CountDownTimer(countdownSeconds * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                long seconds = millisUntilFinished / 1000;
+                int seconds = (int) (millisUntilFinished / 1000);
 
-                System.out.println("Time: " + seconds);
+                setLED(seconds);
             }
 
             @Override
@@ -142,8 +155,6 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     private void checkAnswer(int buttonId) {
-        Question question = questions.get(currentQuestion);
-
         int selected = -1;
 
         if (buttonId == R.id.btnPlayA) {
@@ -192,6 +203,8 @@ public class PlayActivity extends AppCompatActivity {
                 return;
             }
 
+            closeLoadingDialog();
+
             quizFinished(1);
         });
     }
@@ -212,6 +225,12 @@ public class PlayActivity extends AppCompatActivity {
                 "Unable to save quiz"
         };
 
+        setLED(0);
+
+        setLCD(
+                "Congratulations",
+                String.format("Guessed %d / %d", correctAnswers, totalAnswers));
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations")
                 .setMessage(String.format("You've guessed %d / %d correct\n%s", correctAnswers, totalAnswers, finishText[submitStatus]))
@@ -220,6 +239,7 @@ public class PlayActivity extends AppCompatActivity {
                     Intent intent = new Intent(PlayActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    setLCD("", "");
                     finish();
                 });
 
@@ -268,11 +288,12 @@ public class PlayActivity extends AppCompatActivity {
         this.countdown = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
+                flipLED();
             }
 
             @Override
             public void onFinish() {
+                setLED(0);
                 setButtonBackgroundColor(DEFAULT_COLOR);
                 isShowingAnswers = false;
                 checkAnswer(buttonId);
@@ -297,10 +318,15 @@ public class PlayActivity extends AppCompatActivity {
                 long second = millisUntilFinished / 1000;
 
                 tvPlayQuestion.setText(Long.toString(second));
+
+                setLCD("Get ready... " + second, "");
+
+                flipLED();
             }
 
             @Override
             public void onFinish() {
+                setLED(0);
                 showQuestion();
             }
         };
@@ -318,4 +344,11 @@ public class PlayActivity extends AppCompatActivity {
         dialog.dismiss();
     }
 
+    private void flipLED() {
+        setLED(isLEDOn ? 0 : 8);
+        isLEDOn = !isLEDOn;
+    }
+
+    private native void setLED(int length);
+    private native void setLCD(String line1, String line2);
 }
