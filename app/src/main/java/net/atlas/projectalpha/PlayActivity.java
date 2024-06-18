@@ -1,5 +1,6 @@
 package net.atlas.projectalpha;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,7 +12,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import net.atlas.projectalpha.api.SessionManager;
+import net.atlas.projectalpha.api.model.SubmitPlayViewModel;
 import net.atlas.projectalpha.model.Question;
 import net.atlas.projectalpha.model.QuizItem;
 
@@ -21,6 +25,7 @@ public class PlayActivity extends AppCompatActivity {
     private TextView tvPlayQuestion;
     private Button btnPlayA, btnPlayB, btnPlayC, btnPlayD;
 
+    private ProgressDialog dialog;
     private CountDownTimer countdown;
     private final String DEFAULT_COLOR = "#6b82e2";
     private boolean isShowingAnswers = false;
@@ -29,6 +34,9 @@ public class PlayActivity extends AppCompatActivity {
     private ArrayList<Question> questions;
     private int currentQuestion = 0;
     private ArrayList<Integer> answers;
+
+    private SessionManager sessionManager;
+    private SubmitPlayViewModel submitPlayViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +51,13 @@ public class PlayActivity extends AppCompatActivity {
 
         setButtonBackgroundColor(DEFAULT_COLOR);
 
+        dialog = new ProgressDialog(this);
+
+        sessionManager = new SessionManager(this);
+        submitPlayViewModel = new ViewModelProvider(this).get(SubmitPlayViewModel.class);
+
         // Get Quiz Item
-        QuizItem quizItem = getIntent().getParcelableExtra("quizItem");
+        quizItem = getIntent().getParcelableExtra("quizItem");
         questions = quizItem.getQuestions();
 
         answers = new ArrayList<>();
@@ -154,14 +167,36 @@ public class PlayActivity extends AppCompatActivity {
         currentQuestion++;
 
         if (currentQuestion >= questions.size()) {
-            quizFinished();
+            submitPlay();
             return;
         }
 
         showQuestion();
     }
 
-    private void quizFinished() {
+    private void submitPlay() {
+        showLoadingDialog();
+
+        boolean isLoggedIn = sessionManager.isLoggedIn();
+        if (!isLoggedIn) {
+            quizFinished(0);
+            return;
+        }
+
+        String quizId = this.quizItem.getId();
+        submitPlayViewModel.send(quizId, answers, PlayActivity.this);
+
+        submitPlayViewModel.getResponse().observe(PlayActivity.this, response -> {
+            if (response == null) {
+                quizFinished(2);
+                return;
+            }
+
+            quizFinished(1);
+        });
+    }
+
+    private void quizFinished(int submitStatus) {
         int correctAnswers = 0;
         int totalAnswers = questions.size();
 
@@ -171,18 +206,21 @@ public class PlayActivity extends AppCompatActivity {
             }
         }
 
+        String[] finishText = new String[] {
+                "Progress is not saved",
+                "Quiz saved",
+                "Unable to save quiz"
+        };
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations")
-                .setMessage(String.format("You've guessed %d / %d correct", correctAnswers, totalAnswers))
-                .setPositiveButton("Finish", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(PlayActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
+                .setMessage(String.format("You've guessed %d / %d correct\n%s", correctAnswers, totalAnswers, finishText[submitStatus]))
+                .setPositiveButton("Finish", (dialog, which) -> {
+                    dialog.dismiss();
+                    Intent intent = new Intent(PlayActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 });
 
         AlertDialog dialog = builder.create();
@@ -269,4 +307,15 @@ public class PlayActivity extends AppCompatActivity {
 
         this.countdown.start();
     }
+
+    private void showLoadingDialog() {
+        dialog.setMessage("Loading...");
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    private void closeLoadingDialog() {
+        dialog.dismiss();
+    }
+
 }

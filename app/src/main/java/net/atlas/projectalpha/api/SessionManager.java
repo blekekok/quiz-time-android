@@ -34,6 +34,12 @@ public class SessionManager {
         editor.commit();
     }
 
+    public boolean isLoggedIn() {
+        String refreshCookie = pref.getString(REFRESH_COOKIE, null);
+
+        return refreshCookie != null;
+    }
+
     public void logout() {
         editor.clear();
         editor.commit();

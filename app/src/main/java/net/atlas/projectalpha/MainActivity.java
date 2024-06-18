@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             String desc = quiz.getDescription();
             String category = quiz.getCategory();
             String image = quiz.getThumbnail();
-            int plays = 0; // Change this later
+            int plays = quiz.getPlays(); // Change this later
             quizList.add(new QuizItem(id, title, desc, category, image, plays, null));
         }
 

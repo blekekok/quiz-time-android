@@ -46,8 +46,6 @@ public class ApiClient {
 
                         builder.addHeader("Cookie", authHeaders.toString().trim());
 
-                        System.out.println(authHeaders.toString().trim());
-
                         Response response = chain.proceed(builder.build());
 
                         System.out.println(response);

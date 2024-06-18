@@ -1,6 +1,7 @@
 package net.atlas.projectalpha.api;
 
 import net.atlas.projectalpha.api.request.LoginRequest;
+import net.atlas.projectalpha.api.request.SubmitPlayRequest;
 import net.atlas.projectalpha.api.response.QuizDetailResponse;
 import net.atlas.projectalpha.api.response.QuizResponse;
 import net.atlas.projectalpha.api.response.UserInfoResponse;
@@ -26,5 +27,8 @@ public interface ApiService {
 
     @GET("quiz/quiz-detail/{quizId}")
     Call<ApiResponse<QuizDetailResponse>> getQuizDetail(@Path("quizId") String quizId);
+
+    @POST("quiz/submit-play")
+    Call<ApiResponse> submitPlay(@Body SubmitPlayRequest submitPlayRequest);
 }
 

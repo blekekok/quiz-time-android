@@ -8,6 +8,7 @@ public class QuizResponse {
     private String thumbnail;
     private String authorName;
     private String questionCount;
+    private int plays;
 
     public String getId() {
         return id;
@@ -63,5 +64,13 @@ public class QuizResponse {
 
     public void setQuestionCount(String questionCount) {
         this.questionCount = questionCount;
+    }
+
+    public int getPlays() {
+        return plays;
+    }
+
+    public void setPlays(int plays) {
+        this.plays = plays;
     }
 }
